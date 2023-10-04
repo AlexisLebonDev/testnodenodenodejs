@@ -11,6 +11,8 @@ export const getAlltask = () =>{
     })
   }
 
+// getAlltask();
+
 export const getTaskFromIdUser = (id) =>{
     connection.query('SELECT * FROM tasks WHERE owner = ?',[id], (error, result) =>{
       if(error){
@@ -21,6 +23,8 @@ export const getTaskFromIdUser = (id) =>{
       }
     })
   }
+
+// getTaskFromIdUser(2);
 
 export const getTaskFromNameUser = (name) =>{
     connection.query('SELECT * FROM tasks INNER JOIN user ON tasks.owner = user.id WHERE user.nom = ?', [name], (error, result) =>{

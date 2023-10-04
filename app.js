@@ -3,15 +3,6 @@ console.log("coucou");
 
 import { getAlltask, getTaskFromIdUser, getTaskFromNameUser } from "./controllers/taskController.js";
 
-
-
-// getAlltask();
-
-
-
-// getTaskFromIdUser(2);
-
-
 import express from 'express'
 
 const app = express()
@@ -30,6 +21,7 @@ app.get('/', function (req, res) {
   res.send('Coucou')
 })
 
+//Appel l'APP (serveur localhost:3000)
 app.listen(3000,()=>{
   console.log("serveur démarré sur local host")
 })
