@@ -40,3 +40,54 @@ export const getTaskFromNameUser = (name) =>{
   }
   
 //   getTaskFromNameUser('Jacques');
+
+
+const editAllTaskByNameUser = (nom, description) =>{
+    // Aller chercher l'id de l'user qui à un certain nom
+    connection.query('SELECT id FROM user WHERE nom = ?', [nom], (error, result)=>{
+        if(error){
+            console.log('erreur', error)
+        }
+        else{
+            console.log(result[0])
+            const id = result[0].id 
+
+            // Aller chercher la tâche qui a pour onwer l'ID du user demandé
+            connection.query(`UPDATE tasks SET description = ? WHERE owner = ?`, [description, id], (error, result)=>{
+                if(error){
+                    console.log('erreur')
+                }
+                else {
+                    console.log(result.message)
+                }
+            })
+        }
+    })
+}
+
+// editAllTaskByNameUser('Jean', 'apprendre qui il est') 
+
+const addTaskFromNameUser = (nom, description) =>{
+        // Aller chercher l'id de l'user qui à un certain nom
+    connection.query(`SELECT id FROM user WHERE nom = ?`, [nom], (error, result)=>{
+        if(error){
+            console.log(error)
+        }
+        else{
+            console.log(result[0])
+            const id = result[0].id
+
+            connection.query(`INSERT INTO tasks (description, owner) VALUES (?, ?)`, [description, id], (error, result)=>{
+                if(error){
+                    console.log('erreur')
+                }
+                else{
+                    console.log(result.message)
+                }
+            })
+        }
+    })
+}
+
+// addTaskFromNameUser('Jean', 'Trouver Ornicar')
+

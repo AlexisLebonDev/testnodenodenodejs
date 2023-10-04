@@ -5,9 +5,9 @@ import { getAlltask, getTaskFromIdUser, getTaskFromNameUser } from "./controller
 
 
 
-getAlltask();
+// getAlltask();
 
 
 
-getTaskFromIdUser(2);
+// getTaskFromIdUser(2);
 
