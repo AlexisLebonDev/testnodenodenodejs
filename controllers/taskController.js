@@ -11,7 +11,6 @@ export const getAlltask = () =>{
     })
   }
 
-// getAlltask();
 
 export const getTaskFromIdUser = (id) =>{
     connection.query('SELECT * FROM tasks WHERE owner = ?',[id], (error, result) =>{
@@ -24,7 +23,7 @@ export const getTaskFromIdUser = (id) =>{
     })
   }
 
-// getTaskFromIdUser(2);
+
 
 export const getTaskFromNameUser = (name) =>{
     connection.query('SELECT * FROM tasks INNER JOIN user ON tasks.owner = user.id WHERE user.nom = ?', [name], (error, result) =>{
@@ -43,7 +42,7 @@ export const getTaskFromNameUser = (name) =>{
     })
   }
   
-//   getTaskFromNameUser('Jacques');
+
 
 
 const editAllTaskByNameUser = (nom, description) =>{
@@ -69,7 +68,7 @@ const editAllTaskByNameUser = (nom, description) =>{
     })
 }
 
-// editAllTaskByNameUser('Jean', 'apprendre qui il est') 
+
 
 const addTaskFromNameUser = (nom, description) =>{
         // Aller chercher l'id de l'user qui à un certain nom
@@ -93,5 +92,5 @@ const addTaskFromNameUser = (nom, description) =>{
     })
 }
 
-// addTaskFromNameUser('Jean', 'Trouver Ornicar')
+
 
