@@ -1,12 +1,12 @@
 import {connection} from "../db.js"
 
-export const getAlltask = () =>{
+export const getAlltask = (req, res) =>{
     connection.query('SELECT * FROM tasks', (error, result) =>{
       if(error){
         console.log('erreur')
       }
       else{
-        console.log(result)
+        res.send(result)
       }
     })
   }

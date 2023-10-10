@@ -31,6 +31,7 @@ const port = 3000;
 // })
 
 import axios from 'axios' ;
+import { taskRouter } from "./router/task.js";
 
 app.set("view engine", "ejs");
 app.get('/', async (req, res) => {
@@ -43,6 +44,7 @@ app.get('/', async (req, res) => {
 
         // Render the EJS template with the movie data
         res.render('index', { movies: data });
+        // res.send(data)
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -55,6 +57,8 @@ app.get('/', async (req, res) => {
 //     res.render("index");
 // })
 
+
+app.use(taskRouter)
 
 //Appel l'APP (serveur localhost:3000)
 app.listen(port, () => {
