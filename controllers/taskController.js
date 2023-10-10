@@ -12,13 +12,14 @@ export const getAlltask = (req, res) =>{
   }
 
 
-export const getTaskFromIdUser = (id) =>{
+export const getTaskFromIdUser = (req, res) =>{
+    const id = req.params.id
     connection.query('SELECT * FROM tasks WHERE owner = ?',[id], (error, result) =>{
       if(error){
         console.log('erreur')
       }
       else{
-        console.log(result)
+        res.send(result)
       }
     })
   }
@@ -93,4 +94,52 @@ const addTaskFromNameUser = (nom, description) =>{
 }
 
 
+export const postTaskById = (req, res) =>{
+  const id = req.params.id;
+  const description = req.body.description;
+  const complete = req.body.complete;
+  connection.query(`INSERT INTO tasks (description, owner, complete) VALUES (?, ?, ?)`, [description, id, complete], (error, result)=>{
+    if(error){
+        console.log('erreur')
+    }
+    else{
+        res.send(result)
+    }
+})
+}
 
+export const updateTaskById = (req, res) =>{
+
+  try {
+    const id = req.params.id;
+    const description = req.body.description;
+    const complete = req.body.complete;
+    connection.query(`UPDATE tasks SET description = ?, complete = ? WHERE id = ? `, [description, complete, id], (error, result)=>{
+
+    res.status(200).send(result)
+
+    })
+  } catch (error) {
+
+    res.send(error)
+
+  }
+
+}
+
+export const deleteTaskById = (req, res) =>{
+  try {
+    const id = req.params.id
+
+    connection.query(`DELETE FROM tasks WHERE id = ? `, [id], (error, result)=>{
+
+      res.status(200).send(result)
+  
+      })
+
+  }
+
+  catch (error) {
+    res.send(error)
+  }
+}

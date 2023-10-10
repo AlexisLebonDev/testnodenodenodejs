@@ -57,8 +57,9 @@ app.get('/', async (req, res) => {
 //     res.render("index");
 // })
 
-
+app.use(express.json())
 app.use(taskRouter)
+
 
 //Appel l'APP (serveur localhost:3000)
 app.listen(port, () => {
