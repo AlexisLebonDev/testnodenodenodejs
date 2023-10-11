@@ -58,7 +58,7 @@
 .movie-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 19px;
             text-align: center;
             align-items: center;
             justify-content: center;
@@ -72,7 +72,7 @@
             <div class="card">
                 <img src="<%= movie.images.jpg.image_url %>" alt="<%= movie.title %>">
                 <h2><%= movie.title %></h2>
-                <p><%= movie.synopsis %></p>
+                <p><%= movie.synopsis %></p> 
             </div>
         <% }); %>
     </div>

@@ -1,32 +1,66 @@
-import {connection} from "../db.js"
+import {Task} from "./../models/task.js"
 
-export const getAlltask = (req, res) =>{
-    connection.query('SELECT * FROM tasks', (error, result) =>{
-      if(error){
-        console.log('erreur')
+// VERSION MYSQL :
+// export const getAlltask = (req, res) =>{
+//     connection.query('SELECT * FROM tasks', (error, result) =>{
+//       if(error){
+//         console.log('erreur')
+//       }
+//       else{
+//         res.send(result)
+//       }
+//     })
+
+// VERSION SEQUELIZE :
+  export const getAlltask = async (req, res) =>{
+    try {
+      const tasks = await Task.findAll()
+
+      if (!tasks){
+        res.status(404).send("Pas de tâche trouvé")
       }
-      else{
-        res.send(result)
+      res.status(200).send(tasks)
+
+    } catch (error) {
+      console.log(error)
+      res.send(error)
+    }
+  }
+
+// VERSION MYSQL :
+// export const getTaskFromIdUser = (req, res) =>{
+//     const id = req.params.id
+//     connection.query('SELECT * FROM tasks WHERE owner = ?',[id], (error, result) =>{
+//       if(error){
+//         console.log('erreur')
+//       }
+//       else{
+//         res.send(result)
+//       }
+//     })
+
+// VERSION SEQUELIZE :
+export const getTaskFromIdUser = async (req, res) =>{
+    try {
+      const tasks = await Task.findAll({
+        where: {
+          id : req.params.id
+        }
+      })
+      
+      if (!tasks){
+        res.status(404).send("Pas trouvé de tâche en fonction de l'ID")
       }
-    })
+      res.status(200).send(tasks)
+      
+    } catch (error) {
+      res.send(error)
+    }
   }
 
 
-export const getTaskFromIdUser = (req, res) =>{
-    const id = req.params.id
-    connection.query('SELECT * FROM tasks WHERE owner = ?',[id], (error, result) =>{
-      if(error){
-        console.log('erreur')
-      }
-      else{
-        res.send(result)
-      }
-    })
-  }
 
-
-
-export const getTaskFromNameUser = (name) =>{
+export const getTaskFromNameUser = async (name) =>{
     connection.query('SELECT * FROM tasks INNER JOIN user ON tasks.owner = user.id WHERE user.nom = ?', [name], (error, result) =>{
       if(error){
         console.log('erreur')
@@ -93,19 +127,41 @@ const addTaskFromNameUser = (nom, description) =>{
     })
 }
 
+// VERSION MYSQL :
+// export const postTaskById = (req, res) =>{
+//   const _id = req.params.id;
+//   const _description = req.body.description;
+//   const _complete = req.body.complete;
+  //   connection.query(`INSERT INTO tasks (description, owner, complete) VALUES (?, ?, ?)`, [description, id, complete], (error, result)=>{
+  //     if(error){
+  //         console.log('erreur')
+  //     }
+  //     else{
+  //         res.send(result)
+  //     }
+// })
 
-export const postTaskById = (req, res) =>{
-  const id = req.params.id;
-  const description = req.body.description;
-  const complete = req.body.complete;
-  connection.query(`INSERT INTO tasks (description, owner, complete) VALUES (?, ?, ?)`, [description, id, complete], (error, result)=>{
-    if(error){
-        console.log('erreur')
+// VERSION SEQUELIZE :
+export const postTaskById = async (req, res) =>{
+  const _id = req.params.id;
+  const _description = req.body.description;
+  const _complete = req.body.complete;
+    try {
+      console.log(_description)
+      const tasks = await Task.create({
+          owner : _id,
+          description : _description,
+          complete : _complete
+      })
+      
+      if (!tasks){
+        res.status(404).send("Pas trouvé de tâche en fonction de l'ID")
+      }
+      res.status(200).send(tasks)
+      
+    } catch (error) {
+      res.send(error)
     }
-    else{
-        res.send(result)
-    }
-})
 }
 
 export const updateTaskById = (req, res) =>{
