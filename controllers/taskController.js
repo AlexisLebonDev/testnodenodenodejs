@@ -164,38 +164,80 @@ export const postTaskById = async (req, res) =>{
     }
 }
 
-export const updateTaskById = (req, res) =>{
+// VERSION MYSQL :
+// export const updateTaskById = (req, res) =>{
 
+//   try {
+//     const id = req.params.id;
+//     const description = req.body.description;
+//     const complete = req.body.complete;
+//     connection.query(`UPDATE tasks SET description = ?, complete = ? WHERE id = ? `, [description, complete, id], (error, result)=>{
+
+//     res.status(200).send(result)
+
+//     })
+//   } catch (error) {
+
+//     res.send(error)
+//   }
+// }
+
+// VERSION SEQUELIZE :
+export const updateTaskById = async (req, res) =>{
+  const _id = req.params.id;
+  const _description = req.body.description;
+  const _complete = req.body.complete;
   try {
-    const id = req.params.id;
-    const description = req.body.description;
-    const complete = req.body.complete;
-    connection.query(`UPDATE tasks SET description = ?, complete = ? WHERE id = ? `, [description, complete, id], (error, result)=>{
-
-    res.status(200).send(result)
-
+    const tasks = await Task.update({ description: _description , complete: _complete}, {
+      where: {
+        owner : _id
+      }
     })
+    if (!tasks){
+      res.status(404).send("Pas de tache trouvée")
+    }
+    res.status(202).send(tasks)
   } catch (error) {
-
     res.send(error)
-
   }
-
 }
 
-export const deleteTaskById = (req, res) =>{
-  try {
-    const id = req.params.id
 
-    connection.query(`DELETE FROM tasks WHERE id = ? `, [id], (error, result)=>{
+// VERSION MYSQL :
+// export const deleteTaskById = (req, res) =>{
+//   try {
+//     const id = req.params.id
 
-      res.status(200).send(result)
+//     connection.query(`DELETE FROM tasks WHERE id = ? `, [id], (error, result)=>{
+
+//       res.status(200).send(result)
   
-      })
+//       })
 
-  }
+//   }
 
-  catch (error) {
+//   catch (error) {
+//     res.send(error)
+//   }
+// }
+
+// VERSION SEQUELIZE :
+export const deleteTaskById = async (req, res) =>{
+  const _id = req.params.id
+
+  try {
+    const tasks = await Task.destroy({
+      where: {
+        id : _id
+      }
+    })
+
+    if (!tasks){
+      res.status(404).send("Aucune tâche trouvée")
+    }
+    res.status(200).send("tache(s) supprimée(s)")
+      
+  } catch (error) {
     res.send(error)
   }
 }

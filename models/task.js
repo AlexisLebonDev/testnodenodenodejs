@@ -23,3 +23,4 @@ export const Task = sequelize.define('tasks', {
     createdAt: false,
     updatedAt: false,
   });
+

@@ -33,6 +33,8 @@ const port = 3000;
 
 import axios from 'axios' ;
 import { taskRouter } from "./router/task.js";
+import { userRouter } from "./router/users.js";
+
 
 app.set("view engine", "ejs");
 app.get('/', async (req, res) => {
@@ -60,6 +62,7 @@ app.get('/', async (req, res) => {
 
 app.use(express.json())
 app.use(taskRouter)
+app.use(userRouter)
 
 
 //Appel l'APP (serveur localhost:3000)
