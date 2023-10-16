@@ -1,5 +1,6 @@
 import {sequelize} from "../db.js";
 import { DataTypes } from "sequelize";
+import {Task} from "./task.js"
 
 export const User = sequelize.define('user', {
     id : {
@@ -33,3 +34,17 @@ export const User = sequelize.define('user', {
     createdAt: false,
     updatedAt: false,
   });
+
+User.disBonjour = () =>{
+  console.log("Michel")
+}
+
+User.delTaskById = async (_id) =>{
+  //Ici je cherche à supprimer toutes les tâches qui ont pour owner l'ID en paramètre
+  const tasks = await Task.destroy({
+    where: {
+      owner : _id
+    }
+  })
+
+}
