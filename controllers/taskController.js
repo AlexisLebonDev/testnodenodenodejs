@@ -12,9 +12,32 @@ import {Task} from "./../models/task.js"
 //     })
 
 // VERSION SEQUELIZE :
+      //Récupérer différents paramètres soumis via l'URL au travers de paramètres, ex: /tasks?completed=true&limit=2
   export const getAlltask = async (req, res) =>{
     try {
-      const tasks = await Task.findAll()
+
+      //Option est une variable qui nous permet de stocker les éventuels paramètres
+      const options = {}
+
+      //On test si il y a le paramètre 'complete' dans l'URL
+      if (req.query.complete){
+        //On créer une variable 'isComplete' par défault égal à Zéro pour réécrire la valeur 'complete' sans les guillemets
+        let isComplete = 0
+        //Si 'complete' est égal à 'true' je sauvegarde 'isComplete' avec la valeur 'true' mais sans les guillemets
+        if (req.query.complete === 'true') {
+          isComplete = true
+        }
+        //Si 'complete' est égal à 'false' je sauvegarde 'isComplete' avec la valeur 'false' mais sans les guillemets
+        else if (req.query.complete === 'false'){
+          isComplete = false
+        }
+        //On ajoute la clause 'where' à la variable option qui sera passé en paramètre de la requête
+        options.where = {complete : isComplete}
+      }
+console.log(options)
+
+      //On va chercher toutes les tâches avec potentiellement des options
+      const tasks = await Task.findAll(options)
 
       if (!tasks){
         res.status(404).send("Pas de tâche trouvé")
@@ -241,3 +264,4 @@ export const deleteTaskById = async (req, res) =>{
     res.send(error)
   }
 }
+

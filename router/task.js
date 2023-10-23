@@ -1,6 +1,6 @@
 import express from "express";
 export const taskRouter = express.Router();
-import {getAlltask, getTaskFromIdUser, postTaskById, updateTaskById, deleteTaskById} from "./../controllers/taskController.js"
+import {getAlltask, getTaskFromIdUser, postTaskById, updateTaskById, deleteTaskById,} from "./../controllers/taskController.js"
 
 
 
@@ -22,4 +22,8 @@ taskRouter.put('/tasks/:id', function(req, res){
 
 taskRouter.delete('/tasks/:id', function(req, res){
     deleteTaskById(req, res);
+})
+
+taskRouter.get('/tasks/completed=true', function(req, res){
+    tasksCompleted(req, res);
 })
