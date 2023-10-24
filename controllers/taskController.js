@@ -34,7 +34,23 @@ import {Task} from "./../models/task.js"
         //On ajoute la clause 'where' à la variable option qui sera passé en paramètre de la requête
         options.where = {complete : isComplete}
       }
-console.log(options)
+
+      //Permet de limiter les nombre de résultat en fonction du nombre mit dans la requête 
+      if (req.query.limit) {
+        options.limit = parseInt(req.query.limit);
+      }
+
+
+      //tasks?order=createdAt:desc
+      const sort = {}
+        if(req.query.sortBy) {
+          const parts = req.query.sortBy.split(':')
+          sort.createdAt = parts[1] === 'desc' ? 'DESC' : 'ASC'
+
+          //create order clause in options object
+          options.order = [['createdAt', 'DESC']]
+      }
+
 
       //On va chercher toutes les tâches avec potentiellement des options
       const tasks = await Task.findAll(options)

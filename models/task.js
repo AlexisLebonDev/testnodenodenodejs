@@ -17,10 +17,10 @@ export const Task = sequelize.define('tasks', {
         autoIncrement: true,
         primaryKey: true,
         trim: true
-    }
+    },
   }, 
   {
-    createdAt: false,
-    updatedAt: false,
+    createdAt: true,
+    updatedAt: true
   });
 
