@@ -1,6 +1,8 @@
 import {sequelize} from "../db.js";
 import { DataTypes } from "sequelize";
-import {Task} from "./task.js"
+import {Task} from "./task.js";
+
+import jwt from 'jsonwebtoken';
 
 export const User = sequelize.define('user', {
     id : {
@@ -28,6 +30,11 @@ export const User = sequelize.define('user', {
       type: DataTypes.STRING,
       allowNull: false,
       trim: true
+    },
+    token: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      trim:true
     }
   }, 
   {
@@ -48,3 +55,15 @@ User.delTaskById = async (_id) =>{
   })
 
 }
+
+User.generateAuthToken = async (user) =>{
+  //Création du token
+  const token = jwt.sign({ "id": user.id.toString() }, process.env.secret);
+
+  //Ajouter le token à l'utilisateur
+  user.token = token
+
+  //Sauvegarder en BDD avec la méthode save, c'est une méthode de sequelize pour sauvegarder en BDD
+  await user.save()
+  return token
+} 

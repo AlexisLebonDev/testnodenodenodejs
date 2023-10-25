@@ -1,9 +1,14 @@
 // import mysql from 'mysql' ;
+
+//Import Sequelize 
 import Sequelize from 'sequelize';
 
 // CONCERNE LES IDENTIFIANTS DE CONNEXION BDD
 import dotenv from 'dotenv';
 dotenv.config();
+
+// import de bcrypt pour chiffrer les password
+import bcrypt from 'bcrypt';
 
 // CONNEXION BBD AVEC MYSQL
 // export const connection = mysql.createConnection({
