@@ -97,3 +97,57 @@ export const loginUser = async (req, res) =>{
   }
 
 }
+
+
+export const logoutUser = async (req, res) => {
+  try {
+
+    const token = req.header("Authorization").replace("Bearer","").trim()
+
+    const user = await User.findOne({
+      where:{
+        id: req.user.id,
+        token : token
+      }
+    })
+
+    if(!user) throw ("Pas d'utilisateur")
+
+    user.token = null
+
+    await user.save()
+
+    res.status(200).send("Déconnexion réussie")
+    
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}
+
+
+export const patchUser = async (req, res) =>{
+  // const option vide sert à stocker les éventuelles options
+  const option = {}
+
+  //if demande dans la requête si il y a des paramètres pour les mettre en option
+  if(req.body.age) option.age = req.body.age
+  if(req.body.nom) option.nom = req.body.nom
+  if(req.body.mail) option.mail = req.body.mail
+  if(req.body.password) option.password = req.body.password
+console.log(option)
+  try {
+    const user = await User.update(option, {
+      where: {
+        id : req.params.id
+      }
+    })
+    if (!user){
+      res.status(400).send("Pas de mise à jour possible")
+    }
+
+    res.status(200).send("Mise à jour réussie")
+
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}

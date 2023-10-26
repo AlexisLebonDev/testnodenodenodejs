@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllUser, postUser, deleteUserById, loginUser } from "./../controllers/userController.js";
+import { getAllUser, postUser, deleteUserById, loginUser, logoutUser, patchUser } from "./../controllers/userController.js";
 import {auth} from "./../middleware/auth.js"
 export const userRouter = express.Router();
 
@@ -18,3 +18,11 @@ userRouter.delete('/user/:id', auth, function(req, res){
 userRouter.post('/user/login', function(req, res){
     loginUser(req, res);
 })
+
+userRouter.post('/user/logout', auth, function(req, res){
+    logoutUser(req, res);
+})
+
+userRouter.patch('/user/:id', auth, function(req, res){
+    patchUser(req, res);
+} )

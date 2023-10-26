@@ -33,7 +33,7 @@ export const User = sequelize.define('user', {
     },
     token: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       trim:true
     }
   }, 
@@ -67,3 +67,4 @@ User.generateAuthToken = async (user) =>{
   await user.save()
   return token
 } 
+
