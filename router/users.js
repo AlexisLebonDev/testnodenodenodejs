@@ -26,3 +26,14 @@ userRouter.post('/user/logout', auth, function(req, res){
 userRouter.patch('/user/:id', auth, function(req, res){
     patchUser(req, res);
 } )
+
+import multer from 'multer'
+
+const upload = multer({
+    dest : "images"
+})
+
+userRouter.post('/user/:id/avatar', auth, upload.single("avatar"), function(req, res){
+    // postUserAvatar(req, res);
+    res.send("coucou")
+})

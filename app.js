@@ -66,9 +66,18 @@ app.use(taskRouter)
 app.use(userRouter)
 
 
-//Appel l'APP (serveur localhost:3000)
+//Appel l'APP (serveur localhost:3000) ne rien mettre après cette ligne de code
 app.listen(port, () => {
   console.log(`Example apps listening on port ${port}`)
 })
 
+
+// import multer from "multer"
+
+// const upload = multer({
+//     dest : 'images',
+// })
+// app.post('/upload', upload.single('upload'), (req, res) => {
+//     res.send("test coucou")
+// })
 
